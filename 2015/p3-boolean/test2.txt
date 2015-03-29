@@ -1,0 +1,5 @@
+4
+9 0 0 A 0 N 0 N A R
+9 0 1 A 0 N 1 N A R
+9 1 0 A 1 N 0 N A R
+9 1 1 A 1 N 1 N A R
