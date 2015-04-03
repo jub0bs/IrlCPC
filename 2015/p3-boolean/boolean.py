@@ -34,4 +34,3 @@ n = int(raw_input())
 for i in range(n):
     tokens = getinputs()
     print calc(tokens)
-
