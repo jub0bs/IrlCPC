@@ -7,9 +7,9 @@ main = do n <- read <$> getLine :: IO Int
 calcOne :: IO ()
 calcOne = do
     (_ : ts) <- words <$> getLine
-    case eval' ts [] of
-        False -> print 0
-        True  -> print 1
+    if eval' ts []
+    then print 1
+    else print 0
 
 -- calcMany n : process 'n' lines of input
 calcMany :: Int -> IO ()
@@ -27,25 +27,25 @@ eval src = eval' (words src) []
 eval' :: [String] -> [Bool] -> Bool
 eval' []     [b] = b
 eval' (t:ts) bs
-    | t == "0"   = eval' ts (False : bs)
-    | t == "1"   = eval' ts (True  : bs)
-    | t == "A"   = eval' ts (apply'and bs)
-    | t == "R"   = eval' ts (apply'or  bs)
-    | t == "X"   = eval' ts (apply'xor bs)
-    | t == "N"   = eval' ts (apply'not bs)
+    | t == "0" = eval' ts (False : bs)
+    | t == "1" = eval' ts (True  : bs)
+    | t == "A" = eval' ts (applyAnd bs)
+    | t == "R" = eval' ts (applyOr  bs)
+    | t == "X" = eval' ts (applyXor bs)
+    | t == "N" = eval' ts (applyNot bs)
 
--- apply'and bs : the stack obtained by applying an AND operator on stack 'bs'
-apply'and :: [Bool] -> [Bool]
-apply'and (b1:b2:bs) = (b1 && b2) : bs
+-- applyAnd bs : the stack obtained by applying an AND operator on stack 'bs'
+applyAnd :: [Bool] -> [Bool]
+applyAnd (b1 : b2 : bs) = (b1 && b2) : bs
 
--- apply'or bs : the stack obtained by applying an OR operator on stack 'bs'
-apply'or :: [Bool] -> [Bool]
-apply'or  (b1:b2:bs) = (b1 || b2) : bs
+-- applyOr bs : the stack obtained by applying an OR operator on stack 'bs'
+applyOr :: [Bool] -> [Bool]
+applyOr  (b1 : b2 : bs) = (b1 || b2) : bs
 
--- apply'xor bs : the stack obtained by applying an XOR operator on stack 'bs'
-apply'xor :: [Bool] -> [Bool]
-apply'xor (b1:b2:bs) = (b1 /= b2) : bs
+-- applyXor bs : the stack obtained by applying an XOR operator on stack 'bs'
+applyXor :: [Bool] -> [Bool]
+applyXor (b1 : b2 : bs) = (b1 /= b2) : bs
 
--- apply'not bs : the stack obtained by applying a NOT operator on stack 'bs'
-apply'not :: [Bool] -> [Bool]
-apply'not (b:bs) = not b : bs
+-- applyNot bs : the stack obtained by applying a NOT operator on stack 'bs'
+applyNot :: [Bool] -> [Bool]
+applyNot (b : bs) = not b : bs

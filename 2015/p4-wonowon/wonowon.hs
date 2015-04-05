@@ -1,7 +1,8 @@
 import Control.Applicative ((<$>))
 
-main = do n <- read <$> getLine :: IO Int
-          print $ wonowon n
+main = do
+    n <- read <$> getLine :: IO Int
+    print $ wonowon n
 
 -- primes : the ascending list of prime numbers
 primes :: [Int]
@@ -21,10 +22,10 @@ w :: Int -> Int
 w p = go 101 3
   where
     go n numdigits
-        | remainder == 0 = numdigits
-        | otherwise      = go (100 * remainder + 1) (numdigits + 2)
+        | r == 0    = numdigits
+        | otherwise = go (100 * r + 1) (numdigits + 2)
       where
-        remainder = n `mod` p
+        r = n `mod` p
 
 -- prop p : is W(p) equal to prime number 'p' minus 2?
 prop :: Int -> Bool
