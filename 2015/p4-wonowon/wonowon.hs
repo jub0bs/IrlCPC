@@ -6,7 +6,7 @@ main = do
 
 -- primes : the ascending list of prime numbers
 primes :: [Int]
-primes = 2 : filter isPrime [3,5..]
+primes = 2 : filter isPrime [3, 5 ..]
 
 -- isPrime n : is integer 'n' a prime number?
 isPrime :: Int -> Bool
