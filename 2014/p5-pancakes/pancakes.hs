@@ -11,7 +11,7 @@ main = do
 getPoint :: IO Point
 getPoint = do
     [x, y] <- map read . words <$> getLine
-    return (x,y)
+    return $ Point x y
 
 getPoints :: Int -> IO [Point]
 getPoints 0 = return []
@@ -22,7 +22,7 @@ getPoints n = do
 
 printPoints :: [Point] -> IO ()
 printPoints []            = return ()
-printPoints ((x, y) : ps) = do
+printPoints (Point x y : ps) = do
     putStrLn $ show x ++ " " ++ show y
     printPoints ps
 
@@ -30,16 +30,17 @@ printPoints ((x, y) : ps) = do
 -- Monotone-chain algorithm --
 ------------------------------
 
-type Point  = (Int, Int)
-type Vector = (Int, Int)
+data Point  = Point !Int !Int
+    deriving (Eq, Ord)
+data Vector = Vector !Int !Int
 
 -- vec p1 p2 : the vector between the two points 'p1' and 'p2'
 vec :: Point -> Point -> Vector
-vec (x1, y1) (x2, y2) = (x2 - x1, y2 - y1)
+vec (Point x1 y1) (Point x2 y2) = Vector (x2 - x1) (y2 - y1)
 
 -- cross v1 v2 : the cross-product of vectors 'v1' and 'v2'
 cross :: Vector -> Vector -> Int
-cross (x1, y1) (x2, y2) = x1 * y2 - y1 * x2
+cross (Vector x1 y1) (Vector x2 y2) = x1 * y2 - y1 * x2
 
 -- isClockwise o a b : is angle (OA, OB) a clockwise turn?
 isClockwise :: Point -> Point -> Point -> Bool
