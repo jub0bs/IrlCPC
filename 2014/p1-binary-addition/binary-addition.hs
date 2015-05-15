@@ -1,18 +1,16 @@
 import            Control.Applicative         ((<$>))
+import            Control.Monad               (replicateM)
 import            Data.Char                   (digitToInt, intToDigit)
-import qualified  Data.ByteString.Char8 as B  (foldl', getLine)
+import qualified  Data.ByteString.Char8 as B  (ByteString, foldl', getLine)
 
+main :: IO ()
 main = do
-    n  <- bs2int <$> B.getLine
-    ns <- getInts n
+    n  <- getInt
+    ns <- replicateM n getInt
     putStrLn $ int2str $ sum ns
 
-getInts :: Int -> IO [Int]
-getInts 0 = return []
-getInts n = do
-    m  <- bs2int <$> B.getLine
-    ms <- getInts $ n - 1
-    return (m : ms)
+getInt :: IO Int
+getInt = bs2int <$> B.getLine
 
 -- bs2int bs : the integer corresponding to the binary bytestring 'bs'
 bs2int :: B.ByteString -> Int
