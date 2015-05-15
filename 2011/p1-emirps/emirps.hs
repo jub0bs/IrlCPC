@@ -1,23 +1,20 @@
-import Control.Applicative ((<$>))
+import Control.Applicative  ((<$>))
+import Data.List            (intersperse)
 
 main = do
     [n, m] <- readInputs
-    putList $ emirpRange n m
+    printList $ emirpRange n m
 
 -- readInts : parse one line of input as a sequence of space-separated
 --            integers
 readInputs :: IO [Int]
 readInputs = map read . words <$> getLine
 
--- putList ns : print the list of integers 'ns'
-putList :: [Int] -> IO ()
-putList ns = case ns of
-    []        -> return ()
-    [n]       -> print n
-    (n : ns') -> do
-        putStr $ show n
-        putChar ' '
-        putList ns'
+-- printList ns : print the items of list 'xs' on a line, separated by spaces
+printList :: Show a => [a] -> IO ()
+printList ns = do
+    sequence_ $ intersperse (putChar ' ') $ map (putStr . show) ns
+    putStrLn ""
 
 -- primes : the ascending list of prime numbers
 primes :: [Int]
@@ -29,7 +26,7 @@ isPrime n
     | n < 2     = False
     | otherwise = all (\p -> n `mod` p /= 0) primesPrefix
   where
-    primesPrefix = takeWhile (\p -> p^2 <= n) primes
+    primesPrefix = takeWhile (\p -> p ^ 2 <= n) primes
 
 -- emirpRange n m : the emirps between integers 'n' and 'm', inclusive
 emirpRange :: Int -> Int -> [Int]
