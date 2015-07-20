@@ -1,20 +1,21 @@
-import Control.Applicative  ((<$>))
-import Data.List            (intersperse)
+import Control.Applicative  ( (<$>) )
+import Data.List            ( intercalate )
 
-main = do
-    [n, m] <- readInputs
+main =
+    readInputs >>= \(n, m) ->
     printList $ emirpRange n m
 
 -- readInts : parse one line of input as a sequence of space-separated
 --            integers
-readInputs :: IO [Int]
-readInputs = map read . words <$> getLine
+readInputs :: IO (Int, Int)
+readInputs =
+    map read . words <$> getLine >>= \[n, m] ->
+    return (n, m)
 
 -- printList ns : print the items of list 'xs' on a line, separated by spaces
 printList :: Show a => [a] -> IO ()
-printList ns = do
-    sequence_ $ intersperse (putChar ' ') $ map (putStr . show) ns
-    putStrLn ""
+printList ns =
+    putStrLn $ intercalate " " $ map show ns
 
 -- primes : the ascending list of prime numbers
 primes :: [Int]
@@ -33,8 +34,8 @@ emirpRange :: Int -> Int -> [Int]
 emirpRange n m = filter isEmirp $ takeWhile (<= m)
                                 $ dropWhile (< n) primes
 
--- isEmirp n : is prime number 'n' an emirp?
+-- isEmirp p : is prime number 'p' an emirp?
 isEmirp :: Int -> Bool
-isEmirp n = isPrime revn && revn /= n
+isEmirp p = isPrime revp && revp /= p
   where
-    revn = (read . reverse . show) n
+    revp = (read . reverse . show) p
