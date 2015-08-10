@@ -1,18 +1,14 @@
-import Control.Applicative ((<$>))
+import Control.Applicative ( (<$>) )
+import Data.List           ( intersperse )
 
+main :: IO ()
 main = do
     [a, b, n] <- map read . words <$> getLine :: IO [Int]
     putList $ superPrimes a b n
 
 -- putList ns : print the list of integers
 putList :: [Int] -> IO ()
-putList ns = case ns of
-    []        -> putStrLn ""
-    [n]       -> print n
-    (n : ns') -> do
-        putStr $ show n
-        putChar ' '
-        putList ns'
+putList = putStrLn . concat . intersperse " " . map show
 
 -- primes : the ascending list of prime numbers
 primes :: [Int]
