@@ -23,7 +23,7 @@ w p = go 101 3
   where
     go n numdigits
         | r == 0    = numdigits
-        | otherwise = go (100 * r + 1) (numdigits + 2)
+        | otherwise = go (100 * r + 1) $! numdigits + 2
       where
         r = n `mod` p
 
