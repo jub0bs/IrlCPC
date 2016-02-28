@@ -1,6 +1,8 @@
 -- Based on Yiu-Kwong Man's article,
 -- "An Arithmetic Approach to the General Two Water Jugs Problem"
 --
+import Data.Function ((&))
+import Data.Functor ((<$>))
 import Data.List (minimumBy, unlines)
 
 main :: IO ()
@@ -35,7 +37,7 @@ solve (m, n, d)
 solve1 :: (Int, Int, Int) -> [Action]
 solve1 (m, n, d) = actions $ reverse xs
   where
-    (_, xs) = step4 $ step3 $ step2 (0, [])
+    (_, xs) = (0, []) & step2 & step3 & step4
     step2 (k, xs)
         | k /= d = go (k + m, m : xs)
         | otherwise = (k, xs)
@@ -58,7 +60,7 @@ solve1 (m, n, d) = actions $ reverse xs
 solve2 :: (Int, Int, Int) -> [Action]
 solve2 (m, n, d) = actions $ reverse xs
   where
-    (_, xs) = step4 $ step3 $ step2 (0, [])
+    (_, xs) = (0, []) & step2 & step3 & step4
     step2 (k, xs)
         | k /= d = (k + n, n : xs)
         | otherwise = (k, xs)
